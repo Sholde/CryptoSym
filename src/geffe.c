@@ -7,7 +7,7 @@ char retour(int n) {
 	char res = 0;
 	for(int i = 0; i < 32; i++) {
 		res ^= (n & 1);
-		n >>= 1;
+		n = n >> 1;
 	}
 	return res;
 }
@@ -29,7 +29,6 @@ char filtrage(char *f, char a, char b, char c) {
 		return f[6];
 	if( a && b && c )
 		return f[7];
-	
 	return 0;
 }
 
@@ -38,8 +37,8 @@ char *generateur(char *f, int *k, int n) {
 	char *res = malloc(sizeof(char) * n);
 	
 	int k0 = k[0];
-	int k1 = k[1] >> 16;
-	int k2 = (k[1] << 16 ) >> 16;
+	int k1 = k[1] >> 15;
+	int k2 = (k[1] << 15 ) >> 15;
 	
 	int tmp0, tmp1, tmp2;
 	
@@ -58,9 +57,9 @@ char *generateur(char *f, int *k, int n) {
 		k1 = k1 >> 1;
 		k2 = k2 >> 1;
 		
-		k0 = k0 | retour(tmp0);
-		k1 = k1 | retour(tmp1);
-		k2 = k2 | retour(tmp2);
+		k0 = k0 | (retour(tmp0) << 15);
+		k1 = k1 | (retour(tmp1) << 15);
+		k2 = k2 | (retour(tmp2) << 15);
 	}
 	
 	return res;
