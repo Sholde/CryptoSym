@@ -36,7 +36,7 @@ char *generateur(char *f, int *k, int n) {
 	
 	char *res = malloc(sizeof(char) * n);
 	
-	int k0 = k[0];
+	int k0 = (k[0] << 15 ) >> 15;
 	int k1 = k[1] >> 15;
 	int k2 = (k[1] << 15 ) >> 15;
 	
