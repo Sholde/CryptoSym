@@ -3,16 +3,6 @@
 #include <time.h>
 #include <string.h>
 
-void initialisation(int taille ,int *coefficients)
-{
-	//vecteur de coefficients
-	for(int i=0;i<taille;i++)
-	{
-		coefficients[i]=rand() % 2;
-	}
-   
-
-}
 void initiregi(int taille ,int *registres)
 {
 	  //vecteur d'initialisation
