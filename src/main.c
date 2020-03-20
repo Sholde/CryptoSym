@@ -20,7 +20,7 @@ int main(void) {
 	
 	int *k = malloc(sizeof(int) * 2);
 	k[0] = 0x0000A056;
-	k[1] = 0x56488F9F;
+	k[1] = 0x59488F9F;
 	
 	char *res = generateur(f, k, n);
 	
