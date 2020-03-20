@@ -1,7 +1,7 @@
 #ifndef _geffe_h
 #define _geffe_h
 
-char retour(int n);
+int retour(int n);
 
 char filtrage(char *f, char a, char b, char c);
 
