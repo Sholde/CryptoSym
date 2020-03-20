@@ -3,8 +3,8 @@
 
 #include "geffe.h"
 
-char retour(int n) {
-	char res = 0;
+int retour(int n) {
+	int res = 0;
 	for(int i = 0; i < 32; i++) {
 		res ^= (n & 1);
 		n = n >> 1;
