@@ -12,33 +12,33 @@ int retour(int n) {
 	return res;
 }
 
-char filtrage(char *f, char a, char b, char c) {
+char filtrage(char f, char a, char b, char c) {
 	if( !a && !b && !c )
-		return f[0];
-	if( a && !b && !c )
-		return f[1];
-	if( !a && b && !c )
-		return f[2];
-	if( a && b && !c )
-		return f[3];
-	if( !a && !b && c )
-		return f[4];
-	if( a && !b && c )
-		return f[5];
-	if( !a && b && c )
-		return f[6];
-	if( a && b && c )
-		return f[7];
+        return (f & 128) >> 7;
+	else if( a && !b && !c )
+        return (f & 64) >> 6;
+	else if( !a && b && !c )
+        return (f & 32) >> 5;
+	else if( a && b && !c )
+        return (f & 16) >> 4;
+	else if( !a && !b && c )
+		return (f & 8) >> 3;
+	else if( a && !b && c )
+		return (f & 4) >> 2;
+	else if( !a && b && c )
+		return (f & 2) >> 1;
+	else if( a && b && c )
+		return f & 1;
 	return 0;
 }
 
-char *generateur(char *f, int *k, int n) {
+char *generateur(char f, int *k, int n) {
 	
 	char *res = malloc(sizeof(char) * n);
 	
-	int k0 = (k[0] << 15 ) >> 15;
-	int k1 = k[1] >> 15;
-	int k2 = (k[1] << 15 ) >> 15;
+	int k0 = k[0] & 0x0000FFFF;
+	int k1 = k[1] >> 16;
+	int k2 = k[1] & 0x0000FFFF;
 	
 	int tmp0, tmp1, tmp2;
 	
