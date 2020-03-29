@@ -13,7 +13,6 @@ void initiregi(int taille ,int *registres)
 }
 
 
-
 int LFSRtour1(int *registres, int *coefficients, int taille)
  {
 
@@ -111,7 +110,13 @@ int fonctionf(int *f,int b1,int b2,int b3)
 
 	  }
 	  }
-}}}}}}}
+}
+}
+}
+}
+}
+}
+}
 
 int *final(int *f,int *k,int n)
 {
@@ -155,12 +160,17 @@ int *final(int *f,int *k,int n)
 	 }
 	
 
-	int coefficients1[16]={0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1};
-	int coefficients2[16]={0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1};
+	int coefficients1[16];//={0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1};
 
-	int coefficients3[16]={0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1};
+	int coefficients2[16];//={0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1};
+   
+	int coefficients3[16];//={0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1};
 
-	
+	 initiregi(16,coefficients1);
+
+	 initiregi(16,coefficients2);
+
+	 initiregi(16,coefficients3);
 
 	  for(int i=0;i<n;i++)
 	  {
