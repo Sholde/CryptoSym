@@ -3,6 +3,7 @@
 #include <time.h>
 
 #include "geffe.h"
+#include "test.h"
 
 int main(void) {
 	time_t t;
@@ -33,6 +34,9 @@ int main(void) {
 	free(k);
 	free(f);
 	free(res);
+
+	// Question 2
+	tous_les_f();
 	
 	return 0;
 }
