@@ -23,32 +23,30 @@ void int_to_char(char *s, int n, int taille) {
 } 
 
 int fonction_f(int f, int n) {
-    int a = n & 1;
+    int a = n & 4;
     int b = n & 2;
-    int c = n & 4;
+    int c = n & 1;
 
     if( !a && !b && !c )
-		return f & 1;
+        return (f & 128) >> 7;
 	if( a && !b && !c )
-		return (f & 2) >> 1;
+        return (f & 64) >> 6;
 	if( !a && b && !c )
-		return (f & 4) >> 2;
+        return (f & 32) >> 5;
 	if( a && b && !c )
-		return (f & 8) >> 3;
+        return (f & 16) >> 4;
 	if( !a && !b && c )
-		return (f & 16) >> 4;
+		return (f & 8) >> 3;
 	if( a && !b && c )
-		return (f & 32) >> 5;
+		return (f & 4) >> 2;
 	if( !a && b && c )
-		return (f & 64) >> 6;
+		return (f & 2) >> 1;
 	if( a && b && c )
-		return (f & 128) >> 7;
+		return f & 1;
 	return 0;
 }
 
 int main(void) {
-    int n;
-    n = 0;
 
     char *tmp_f = malloc(sizeof(char) * 9);
     char *tmp_n = malloc(sizeof(char) * 4);
@@ -62,41 +60,46 @@ int main(void) {
     int store = 0;
     int ret = 0;
 
+    FILE *file;
+    file = fopen("res.txt", "w");
+
     for (int f = 0; f < 256; f++)
     {   
         int_to_char(tmp_f, f, 8);
-        printf("Pour f = %s :\n", tmp_f);
-        printf("\n");
+        fprintf(file,"Pour f = %s :\n", tmp_f);
+        fprintf(file, "\n");
         for (int n = 0; n < 8; n++)
         {
             int_to_char(tmp_n, n, 3);
             ret = fonction_f(f, n);
             store = (store << 1) + ret;
-            printf("f(%s) = %d \n", tmp_n, ret);
+            fprintf(file, "f(%s) = %d \n", tmp_n, ret);
         }
-        printf("\n");
+        fprintf(file, "\n");
 
-        int i = 1;
+        int i = 128;
+        int j = 7;
         for (int n = 0; n < 8; n++)
         {
-            if( (n & 1) == ((store & i) >> n) ) {
+            if( (n & 4) >> 2 == ((store & i) >> j) ) {
                 nb_a++;
             }
 
-            if( (n & 2) >> 1 == ((store & i) >> n) ) {
+            if( (n & 2) >> 1 == ((store & i) >> j) ) {
                 nb_b++;
             }
 
-            if( (n & 4) >> 2 == ((store & i) >> n) ) {
+            if( (n & 1) == ((store & i) >> j) ) {
                 nb_c++;
             }
-            i = i << 1;
+            i = i >> 1;
+            j--;
         }
 
-        printf("Corrélation x0 = %d \n", nb_a);
-        printf("Corrélation x1 = %d \n", nb_b);
-        printf("Corrélation x2 = %d \n", nb_c);
-        printf("\n");
+        fprintf(file, "Corrélation x0 = %d %\n", nb_a*100 / 8);
+        fprintf(file, "Corrélation x1 = %d %\n", nb_b*100 / 8);
+        fprintf(file, "Corrélation x2 = %d %\n", nb_c*100 / 8);
+        fprintf(file, "\n");
 
         store = 0;
         nb_a = 0;
@@ -106,6 +109,8 @@ int main(void) {
 
     free(tmp_f);
     free(tmp_n);
+
+    fclose(file);
     
     return 0;
 }
