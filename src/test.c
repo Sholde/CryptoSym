@@ -98,9 +98,9 @@ void tous_les_f(void) {
             j--;
         }
 
-        fprintf(file, "Corrélation x0 = %d \x0a \n", nb_a*100 / 8);
-        fprintf(file, "Corrélation x1 = %d \x0a \n", nb_b*100 / 8);
-        fprintf(file, "Corrélation x2 = %d \x0a \n", nb_c*100 / 8);
+        fprintf(file, "Corrélation x0 = %d %c \n", nb_a*100 / 8, 37);
+        fprintf(file, "Corrélation x1 = %d %c \n", nb_b*100 / 8, 37);
+        fprintf(file, "Corrélation x2 = %d %c \n", nb_c*100 / 8, 37);
         fprintf(file, "\n");
 
         store = 0;
