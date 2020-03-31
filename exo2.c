@@ -26,12 +26,12 @@ char *enbinaire(char x)
   
 
 }
+
+
 char * calculK0(char * text , char * chiffrer)
 {   
 
     int c=strlen(text); 
-
-   
 
     int c1=c/2;
     int t=strlen(chiffrer);
@@ -163,17 +163,149 @@ char * calculK0(char * text , char * chiffrer)
    {
    	  tab[j]=tab[j]^ fs[j];
    }
-
+    for(int i=0;i<4*ta;i++)
+    {
+    	printf("%d",tab[i] );
+    }
+    printf("\n\n");
    
    return tab;
 
+}
+char *calculK1(char*text , char * chiffrer)
+{
+       int t=strlen(text);
+
+       int t1=strlen(chiffrer);
+
+       //recupere la deuxieme partie text
+
+       char * xr=malloc((t/2)*sizeof(char));
+
+   int j=0;
+     for(int i=t/2;i<t;i++)
+    {
+	   xr[j]=text[i];
+	   j++;
+    }
+    char *xl =malloc((t1/2)*sizeof(char));
+    char *xR=malloc((t1/2)*sizeof(char));
+    for(int i=0;i<t1/2;i++)
+    {
+    	xl[i]=chiffrer[i];
+    }
+    j=0;
+
+    for(int i=t1/2;i<t1;i++)
+    {
+    	xR[j]=chiffrer[i];
+    	j++;
+    }
+     char *xor=malloc((t1/2)*sizeof(char));
+     for(int i=0;i<t1/2;i++)
+     {
+     	xor[i]=xr[i]^xl[i];
+     }
+    
+     char *tra =malloc((4*(t1/2))*sizeof(char));
+     char *res=malloc(4*sizeof(char));
+
+   int   pr=4,deu=0;
+
+  j=3;
+     for(int i=0;i<t1/2;i++)
+     {
+     	res=enbinaire(xor[i]);
+
+     	j=3;
+           while(deu<pr)
+           {
+
+           	tra[deu]=res[j];
+           j--;
+           	  deu++;
+           }
+          pr=pr*2;
+     }
+   //decalage 7 
+
+     char * sau=malloc(7*sizeof(char));
+
+   for(int i=0;i<7;i++)
+   {
+   	sau[i]=tra[i];
+
+   }  
+   
+    char * rempl=malloc(((2*t1)-7)*sizeof(char));
+
+    int ind=0;
+    for(int i=7;i<2*t1 ;i++)
+    {
+    	rempl[ind]=tra[i];
+    	
+    	ind++;
+    	
+    }
+     
+     ind=0;
+
+    for(int i=0;i<2*t1-7;i++)
+    {
+    	tra[i]=rempl[i];
+    }
+
+    
+    for(int i=2*t1-7;i<2*t1;i++)
+    {
+    	tra[i]=sau[ind];
+    	ind++;
+    }
+       //xor avec x_(r+1)^R
+     char *fs=malloc(2*t1*sizeof(char));
+     pr=4;deu=0;
+
+  j=3;
+     for(int i=0;i<t1;i++)
+     {
+     	res=enbinaire(xR[i]);
+
+     	j=3;
+           while(deu<pr)
+           {
+
+           	fs[deu]=res[j];
+           j--;
+           	  deu++;
+           }
+          pr=pr*2;
+     }
+     for(int i=0;i<2*t1;i++)
+     {
+     	tra[i]=tra[i]^ fs[i];
+     }
+     for(int i=0;i<2*t1;i++)
+     {
+     	printf("%d",tra[i] );
+     }
+     return tra;
+   
 }
 
 int main(int argc, char const *argv[])
 {
 	char * lynda=malloc(5*sizeof(char));
+
+	char *cle0;
+
+	char *cle1;
+
 	lynda="123456";
-	calculK0(lynda,lynda);
+    
+    cle0=calculK0(lynda,lynda);
+	cle1=calculK1(lynda,lynda);
+	
+
 	
 	
 	return 0;
