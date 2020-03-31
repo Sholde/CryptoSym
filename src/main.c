@@ -5,6 +5,7 @@
 #include "geffe.h"
 #include "test.h"
 #include "attaque_geffe.h"
+#include "bloc.h"
 
 int main(void) {
 	time_t t;
@@ -32,7 +33,7 @@ int main(void) {
 	// Question 5
 
 	int *k_find = malloc(sizeof(int) * 3);
-	attaque_geffe(res, taille, k_find);
+	//attaque_geffe(res, taille, k_find);
 
 	printf("\n");
 	printf("k0 de base = %d\n", k_0 & 0x0000FFFF);
@@ -47,5 +48,22 @@ int main(void) {
 	free(k);
 	free(res);
 
+	// exo 2
+	printf("\n");
+	printf("Exo 2 :\n");
+	printf("\n");
+
+	int *l = malloc(sizeof(int));
+	int *r = malloc(sizeof(int));
+	int k0 = 0x01020304;
+	int k1 = 0x98765432;
+	int nb_tour = 1;
+	*l = 0x45019824;
+	*r = 0x51023321;
+
+	bloc(l, r, k0, k1, nb_tour);
+
+	printf("l = %08x\n", *l);
+	printf("r = %08x\n", *r);
 	return 0;
 }
