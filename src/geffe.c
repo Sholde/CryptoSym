@@ -34,7 +34,7 @@ char filtrage(char f, char a, char b, char c) {
 
 char *generateur(char f, int *k, int n) {
 	
-	char *res = malloc(sizeof(char) * n);
+	char *res = malloc(sizeof(char) * n + 1);
 	
 	int k0 = k[0] & 0x0000FFFF;
 	int k1 = k[1] >> 16;
