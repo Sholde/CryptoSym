@@ -53,17 +53,29 @@ int main(void) {
 	printf("Exo 2 :\n");
 	printf("\n");
 
-	int *l = malloc(sizeof(int));
-	int *r = malloc(sizeof(int));
 	int k0 = 0x01020304;
 	int k1 = 0x98765432;
 	int nb_tour = 1;
-	*l = 0x45019824;
-	*r = 0x51023321;
+	int l = 0x45019824;
+	int r = 0x51023321;
 
-	bloc(l, r, k0, k1, nb_tour);
+	int old_l = l;
+	int old_r = r;
 
-	printf("l = %08x\n", *l);
-	printf("r = %08x\n", *r);
+	bloc(&l, &r, k0, k1, nb_tour);
+
+	printf("l1 = %08x\n", l);
+	printf("r1 = %08x\n", r);
+
+	k0 = k1 = 0;
+	attaque(&old_l, &old_r, &l, &r, &k0, &k1);
+
+	printf("\n");
+	printf("Attaque un tour :\n");
+	printf("\n");
+
+	printf("k0 = %08x\n", k0);
+	printf("k1 = %08x\n", k1);
+
 	return 0;
 }
