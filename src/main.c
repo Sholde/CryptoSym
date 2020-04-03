@@ -53,6 +53,7 @@ int main(void) {
 	printf("Exo 2 :\n");
 	printf("\n");
 
+	// init
 	int k0 = 0x01020304;
 	int k1 = 0x98765432;
 	int nb_tour = 1;
@@ -64,18 +65,25 @@ int main(void) {
 
 	bloc(&l, &r, k0, k1, nb_tour);
 
-	printf("l1 = %08x\n", l);
-	printf("r1 = %08x\n", r);
+	affiche_double(l, "l1", r, "r1");
 
-	k0 = k1 = 0;
-	attaque(&old_l, &old_r, &l, &r, &k0, &k1);
+	int nb_texte = 1;
+	int *clair = malloc(sizeof(int) * 2 * nb_texte);
+	int *chiffre = malloc(sizeof(int) * 2 * nb_texte);
+	int *cle = malloc(sizeof(int) * 2);
+	init_clair_chiffre(clair, chiffre, nb_tour, nb_texte);
+
+	attaque_un_tour(clair, chiffre, cle);
 
 	printf("\n");
-	printf("Attaque un tour :\n");
+	printf("Attaque à %d tour :\n", nb_tour);
 	printf("\n");
 
-	printf("k0 = %08x\n", k0);
-	printf("k1 = %08x\n", k1);
+	affiche_double(cle[0], "k0", cle[1], "k1");
+
+	free(clair);
+	free(chiffre);
+	free(cle);
 
 	return 0;
 }
