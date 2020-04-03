@@ -1,7 +1,10 @@
-
+#include <stdio.h>
+#include <stdlib.h>
 #include "bloc.h"
 
-#define rotate(x, y) ((x << y) ^ (x >> (32 - y)))
+int rotate(int x, int y) {
+    return ((x << y) ^ (x >> (32 - y)));
+}
 
 void step(int *l, int *r, int k) {
     int tmp = *r;
@@ -19,7 +22,24 @@ void bloc(int *l, int *r, int k0, int k1, int nb_tour) {
     bloc(l, r , k0, k1, nb_tour);
 }
 
-void attaque(int *l0, int *r0, int *l1, int *r1, int *k0, int *k1) {
-    *k0 = *l1 ^ rotate(*l0 ^ *r0, 7);
-    *k1 = *r1 ^ rotate(*l1 ^ *r0, 7);
+void attaque_un_tour(int *clair, int *chiffre, int *cle) {
+    cle[0] = chiffre[0] ^ rotate(clair[0] ^ clair[1], 7);
+    cle[1] = chiffre[1] ^ rotate(chiffre[0] ^ clair[1], 7);
+}
+
+void init_clair_chiffre(int *clair, int *chiffre, int nb_tour, int nb_texte) {
+    int k0 = rand();
+    int k1 = rand();
+    printf("k0 = %08x\n", k0);
+	printf("K1 = %08x\n", k1);
+    for(int i = 0; i < nb_texte * 2; i += 2) {
+        chiffre[i] = clair[i] = rand();
+        chiffre[i+1] = clair[i+1] = rand();
+        bloc( (chiffre + i), (chiffre + i + 1), k0, k1, nb_tour);
+    }
+}
+
+void affiche_double(int a, char *sa, int b, char *sb) {
+    printf("%s = %08x\n", sa, a);
+	printf("%s = %08x\n", sb, b);
 }
