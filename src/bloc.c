@@ -33,10 +33,14 @@ void init_clair_chiffre(int *clair, int *chiffre, int nb_tour, int nb_texte) {
     printf("k0 = %08x\n", k0);
 	printf("K1 = %08x\n", k1);
     for(int i = 0; i < nb_texte * 2; i += 2) {
-        chiffre[i] = clair[i] = rand();
-        chiffre[i+1] = clair[i+1] = rand();
+        chiffre[i] = clair[i] = i;
+        chiffre[i+1] = clair[i+1] = 0;
         bloc( (chiffre + i), (chiffre + i + 1), k0, k1, nb_tour);
     }
+}
+
+void attaque_texte(int *clair, int *chiffre, int *cle, int nb_tour, int nb_texte) {
+    
 }
 
 void affiche_double(int a, char *sa, int b, char *sb) {

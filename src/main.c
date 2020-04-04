@@ -56,18 +56,15 @@ int main(void) {
 	// init
 	int k0 = 0x01020304;
 	int k1 = 0x98765432;
-	int nb_tour = 1;
+	int nb_tour = 12;
 	int l = 0x45019824;
 	int r = 0x51023321;
-
-	int old_l = l;
-	int old_r = r;
 
 	bloc(&l, &r, k0, k1, nb_tour);
 
 	affiche_double(l, "l1", r, "r1");
 
-	int nb_texte = 1;
+	int nb_texte = 2;
 	int *clair = malloc(sizeof(int) * 2 * nb_texte);
 	int *chiffre = malloc(sizeof(int) * 2 * nb_texte);
 	int *cle = malloc(sizeof(int) * 2);
