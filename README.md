@@ -138,3 +138,17 @@ La fonction <bf>attaque_geffe</bf> :
 - Et on trouve les initialisation
 
 ## Exercice 2
+
+\item Tout d'abord les valeurs de f vont de $[0000 0000 - 1111 1111]$, donc on peut stoker f sur 8 bits avec un int par exemples (plus simples pour les calculs), pariel pour $x_0x_1x_2$ (sortie de chaque LFSR ) qui prend une valeur dans l'intervalle  $[000 -111]$, donc ca prend 3 bits et on a aussi décidé de le stocker dans un int
+    \item On init deux chaine pour pouvoir ensuite écrire dans un fichier les valeurs $f$ et $x_0x_1x_2$
+    
+    \item Les variables nb\_a, nb\_b, nb\_c permette de stocker combiens  de fois la valeurs $x_0$, $x_1$ et $x_2$ sont égale à $s_i$ respectivement.
+    
+    \item store et ret sont deux variables qui permette de sauvegarder le contenu de $s_i$, ret permet de sauvegarder une valeur de $s_i$ et strore sauvegarde les 8 valeurs pour un $f_i$
+    \item Ensuite comme f peut prendre 256 valeur on itère de 0 à 256, pareil pour n qui reprèsente $x_0x_1x_2$ on itère de 0 à 8.
+    \item Ensuite on applique des fonction pour écrire dans le fichier
+    \item Dans la boucle de n, on calcule les bits de sortie et on les stocks dans ret, on fait un shift de store pour pouvoir le concatener avec le nouveau bit de sortie
+    \item Maintenant dans store on a nos 8 bits de sortis $s_i$
+    \item On va calcluez la corrélation
+    \item Pour chaque valeur de n donc de $x_0x_1x_2$, on récupère individuellement les 3 valeurs en faisant un \&, pour $x_0$ et $x_1$ on fait un shift pour le décaler à la position 1, et on prend le bit de sortie correspondant avec un \& et on le décale avec un shift à la position 1, et si ca correspond on ajoute un au compteur.
+    \item Et ensuite c'est trivial
