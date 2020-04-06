@@ -13,3 +13,7 @@
 On directory src.
 
 <pre>cd src/</pre>
+
+## Exercice 1
+
+## Exercice 2
