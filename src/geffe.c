@@ -70,5 +70,23 @@ void affiche_suite(char *suite, int n) {
 	for(int i = 0; i < n; i++) {
 		printf("%c", suite[i] + '0');
 	}
+	printf("\n\n");
+}
+
+void keep_k(int *k, int *k0, int *k1, int *k2) {
+	*k0 = k[0] & 0x0000FFFF;
+	*k1 = k[1] >> 16;
+	*k2 = k[1] & 0x0000FFFF;
+}
+
+void affiche_res_geffe(int *k, int k0, int k1, int k2) {
+	printf("k0 de base = %d\n", k0);
+	printf("k0 trouvé  = %d\n", k[0]);
+	printf("\n");
+	printf("k1 de base = %d\n", k1);
+	printf("k1 trouvé  = %d\n", k[1]);
+	printf("\n");
+	printf("k2 de base = %d\n", k2);
+	printf("k2 trouvé  = %d\n", k[2]);
 	printf("\n");
 }
