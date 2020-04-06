@@ -91,6 +91,27 @@ int main(void) {
 	// Libère la mémoire
 	free(clair);
 	free(chiffre);
+
+	// Attaque 12 tour
+	nb_tour = 12;
+	printf("Attaque à %d tour :\n\n", nb_tour);
+
+	nb_texte = 2;
+	clair = malloc(sizeof(int) * 2 * nb_texte);
+	chiffre = malloc(sizeof(int) * 2 * nb_texte);
+
+	init_clair_chiffre(clair, chiffre, nb_tour, nb_texte);
+
+	if(attaque_texte(clair, chiffre, cle)) {
+		printf("Les clés n'ont pas été trouvé.\n\n");
+	}
+	else {
+		printf("Clé trouvé :\n\n");
+		affiche_double(cle[0], "k0", cle[1], "k1");
+	}
+
+	free(clair);
+	free(chiffre);
 	free(cle);
 
 	return 0;
