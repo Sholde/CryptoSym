@@ -117,7 +117,24 @@ La fonction <bf>fonction_f</bf> :
 
 La fonction <bf>tous_les_f</bf> :
 - Fonction principale, elle ouvre un fichier et écris les résultat dedans
+- On utilise un int pour les différente valeur de f qui va de 0 à 255, donc parcours toutes les valeurs que peut prendre f
+- Et pour les valeurs de x_0 x_1 x_2, on utilise un int, on utilise que les 3 dernier bit, et on itère de 0 à 7
+- On stocke le bit de sortie de la fonction de filtrage dans la variable store qui déale les bit à gauche avant
+- Ensuite après avoir stocker les 8 bits de sortie pour un f on les compare avec les bits de sotie des LFSR
 
 ### L'attaque
+
+Le code se trouve ici :
+<pre>
+src/attaque_geffe.h
+src/attaque_geffe.c
+</pre>
+
+La fonction <bf>attaque_geffe</bf> :
+- Prend en paramètre la suite chiffrante, la taille de la suite
+- le résultat sera dans la variable k
+- Comme on connait les corrélation, ici on commence par le 3ème registre, et on regarde le bit de la suite chiffrante et le bit de sortie du LFSR, taille fois
+- Pareil pour le 1er et le 2eme
+- Et on trouve les initialisation
 
 ## Exercice 2
