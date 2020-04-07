@@ -122,6 +122,20 @@ La fonction <bf>tous_les_f</bf> :
 - On stocke le bit de sortie de la fonction de filtrage dans la variable store qui déale les bit à gauche avant
 - Ensuite après avoir stocker les 8 bits de sortie pour un f on les compare avec les bits de sotie des LFSR
 
+#### Résumé
+
+- Tout d'abord les valeurs de f vont de [0000 0000 - 1111 1111], donc on peut stoker f sur 8 bits avec un int par exemples (plus simples pour les calculs), pariel pour x_0x_1x_2 (sortie de chaque LFSR ) qui prend une valeur dans l'intervalle  [000 -111], donc ca prend 3 bits et on a aussi décidé de le stocker dans un int
+- On init deux chaine pour pouvoir ensuite écrire dans un fichier les valeurs $f$ et x_0x_1x_2
+- Les variables nb_a, nb_b, nb_c permette de stocker combiens  de fois la valeurs x_0, x_1 et x_2 sont égale à s_i respectivement.
+- store et ret sont deux variables qui permette de sauvegarder le contenu de s_i, ret permet de sauvegarder une valeur de $s_i$ et strore sauvegarde les 8 valeurs pour un f_i
+- Ensuite comme f peut prendre 256 valeur on itère de 0 à 256, pareil pour n qui reprèsente x_0x_1x_2 on itère de 0 à 8.
+- Ensuite on applique des fonction pour écrire dans le fichier
+- Dans la boucle de n, on calcule les bits de sortie et on les stocks dans ret, on fait un shift de store pour pouvoir le concatener avec le nouveau bit de sortie
+- Maintenant dans store on a nos 8 bits de sortis s_i
+- On va calcluez la corrélation
+- Pour chaque valeur de n donc de x_0x_1x_2, on récupère individuellement les 3 valeurs en faisant un &, pour x_0 et x_1 on fait un shift pour le décaler à la position 1, et on prend le bit de sortie correspondant avec un & et on le décale avec un shift à la position 1, et si ca correspond on ajoute un au compteur.
+- Et ensuite c'est trivial
+
 ### L'attaque
 
 Le code se trouve ici :
@@ -138,3 +152,54 @@ La fonction <bf>attaque_geffe</bf> :
 - Et on trouve les initialisation
 
 ## Exercice 2
+
+Le code se trouve dans : 
+
+<pre>
+src/bloc.h
+src/bloc.c
+</pre>
+
+Les fonction utilisé sont :
+
+<pre>
+int rotate(int x, int y);
+void step(int *l, int *r, int k);
+void bloc(int *l, int *r, int k0, int k1, int nb_tour);
+void attaque_un_tour(int *clair, int *chiffre, int *cle);
+void init_clair_chiffre(int *clair, int *chiffre, int nb_tour, int nb_texte);
+int attaque_texte(int *clair, int *chiffre, int *cle);
+void affiche_double(int a, char *sa, int b, char *sb);
+</pre>
+
+La fonction <bf>rotate</bf> :
+- Prendd en paramètre un int x à décaler d'une positon y
+- Ca fait la rotation x <<< 7
+
+La fonction <bf>step</bf> :
+- Correspond à la moitier d'un tour de notre réseaux
+- Car notre réseux d'un tour est symétrique, il y a juste la clé qui diffère (et les entré puisqu'on a partagé en deux)
+- Donc elle prend le message l et r, ainsi que la clé k
+- Et ca écrase les valeur l et r pour mettre les nouvelles valeurs dedans
+
+La fonction <bf>bloc</bf> :
+- Applique la fonction step 2 * nb_tour (2 car il y deux clé pour un tour)
+- Et la aussi ça écrase les valuer de l et r pour mettre le résultat dedans
+
+La fonction <bf>attaque_un_tour</bf> :
+- C'est une attaque d'un tour qui utilise les formules :
+- K_0 = L_1 ^ ((L_0 ^ R_0) <<< 7)
+- K_1 = R_1 ^ ((L_1 ^ R_0) <<< 7)
+
+La fonction <bf>init_clair_chiffre</bf> :
+- Initialise le nombre de texte clair / chiffré choisis
+- Le premier texte clair sera 0 et 0
+- Les suivant seront le chiffré du premier mais avec un tour
+
+La fonction <bf>attaque_texte</bf> :
+- Prend en argument les textes clair et chiffré
+- Utilise la supposition que le deuxieme clair est le chiffré d'un tour du premier
+- Donc on calcul K_0 et K_1 avec d'une part ($L_0$,$R_0$) et (L_0',R_0') et de l'autre part (L_N,R_N) et (L_N',R_N')
+
+La fonction <bf>affiche_double</bf> :
+- Permet d'afficher texte = nombre
