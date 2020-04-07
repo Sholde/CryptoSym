@@ -11,11 +11,14 @@
 
 \section{Générateur de type Geffe pour le chiffrement à flot}
 
+\subsection{Question 1}
+
+Voir le code geffe.c / geffe.h
+
 \begin{enumerate}
-    \item voir le code geffe.c, geffe.h
-    \item On a : 
-        $$ s_i = f(x_0x_1x_2) $$
-    Donc pour chaque valuer possible de $x_0x_1x_2$, c-à-d $2^{3}$, on a\\
+    \item On a :
+        $$ s_i = f(x_0x_1x_2) $$ 
+    Donc pour chaque valeur possible de $x_0x_1x_2$, c-à-d $2^{3}$, on a\\
     $
     \left\{
     \begin{array}{ll}
@@ -34,7 +37,7 @@
     Donc suivant les valeurs de $f_i$ on peut retrouver $x_0$, $x_1$ et $x_2$
 
 \begin{itemize}
-    \item    le calcul de la correlation entre la sortie du générateur $s_i$ et la
+    \item    le calcul de la corrélation entre la sortie du générateur $s_i$ et la
 sortie de chaque LFSR.
     \item $f(0,0,0)=0 | 1$
     \item $f(0,0,1)=0 | 1$
@@ -51,52 +54,12 @@ sortie de chaque LFSR.
 
 
 \subsection{Question 2}
+
 \begin{itemize}
     \item voir test.c pour le code et res.txt pour le résultat
 \end{itemize}
 
-\subsubsection{Fonction int\_to\_char}
-
-\begin{itemize}
-    \item Elle prend en paramètre une chaine de caracter dans laquelle écrire, le nombre a transformer en chaine, et la taille en bit du nombre
-    \item Pour chaque itération de i, ca va prendre le bit a la position i (avec le \&) et le décaler à la position 1 (avec le $>>$), ensuite on ajoute la valeur du caractère 0 pour avoir le caractère 0 ou 1.
-\end{itemize}
-
-\subsubsection{Fonction my\_pow}
-
-\begin{itemize}
-    \item Juste une fonction récursive qui calcule $a^e$.
-\end{itemize}
-
-\subsection{Fonction fonction\_f}
-
-\begin{itemize}
-    \item Calcule le bit de sorti $s_i$ en fonction de $f$ et $x_ox1x_2$
-    \item On récupère d'abord individuellement $x_0$, $x_1$ et $x_2$
-    \item Ensuite on fait les test
-    \item Et on retourne le bon $f_i$ en faisant en \& pour prendre le bit et un $>>$ pour le décaler à la position 1
-\end{itemize}
-
-\subsubsection{Fonction main}
-
-\begin{itemize}
-    \item Tout d'abord les valeurs de f vont de $[0000 0000 - 1111 1111]$, donc on peut stoker f sur 8 bits avec un int par exemples (plus simples pour les calculs), pariel pour $x_0x_1x_2$ (sortie de chaque LFSR ) qui prend une valeur dans l'intervalle  $[000 -111]$, donc ca prend 3 bits et on a aussi décidé de le stocker dans un int
-    \item On init deux chaine pour pouvoir ensuite écrire dans un fichier les valeurs $f$ et $x_0x_1x_2$
-    
-    \item Les variables nb\_a, nb\_b, nb\_c permette de stocker combiens  de fois la valeurs $x_0$, $x_1$ et $x_2$ sont égale à $s_i$ respectivement.
-    
-    \item store et ret sont deux variables qui permette de sauvegarder le contenu de $s_i$, ret permet de sauvegarder une valeur de $s_i$ et strore sauvegarde les 8 valeurs pour un $f_i$
-    \item Ensuite comme f peut prendre 256 valeur on itère de 0 à 256, pareil pour n qui reprèsente $x_0x_1x_2$ on itère de 0 à 8.
-    \item Ensuite on applique des fonction pour écrire dans le fichier
-    \item Dans la boucle de n, on calcule les bits de sortie et on les stocks dans ret, on fait un shift de store pour pouvoir le concatener avec le nouveau bit de sortie
-    \item Maintenant dans store on a nos 8 bits de sortis $s_i$
-    \item On va calcluez la corrélation
-    \item Pour chaque valeur de n donc de $x_0x_1x_2$, on récupère individuellement les 3 valeurs en faisant un \&, pour $x_0$ et $x_1$ on fait un shift pour le décaler à la position 1, et on prend le bit de sortie correspondant avec un \& et on le décale avec un shift à la position 1, et si ca correspond on ajoute un au compteur.
-    \item Et ensuite c'est trivial
-\end{itemize}
-
 \subsection{Question 3}
-
 
    \begin{itemize}
         \item Définition de L'attaque diviser pour régner :
@@ -124,8 +87,6 @@ sortie de chaque LFSR.
              \end{itemize}
      \end{itemize}
      \end{itemize}
-    
-    
 \end{itemize}
 
 \begin{itemize}
@@ -144,28 +105,134 @@ sortie de chaque LFSR.
         \item Corrélation $x_2$ = 75 \%
     \end{itemize}
     \item Maintenant on sait que la sortie du 3eme LFSR correspond à 75\% à la suite chiffrante
-    \item Donc Pour toute les inatilisation du 3eme LFSR on va regarder la corrélation entre la sortie de ce LFSR et la suite chiffrante, si la corrélation n'est pas de 75\% on passe à une autre initialisation
+    \item Donc Pour toute les initialisation du 3eme LFSR on va regarder la corrélation entre la sortie de ce LFSR et la suite chiffrante, si la corrélation n'est pas de 75\% on passe à une autre initialisation
     \item Maintenant on a trouvé l'initialisation du 3eme LFSR
     \item Déterminons le 1er et le 2eme LFSR
-    \item Pour le 1er, on sait que la corrélation de la sortie du LFSR et de la suite chiffrante est de 25\%, doonc si on inverse la sortie du LFSR la corrélation sera de 75\%. Donc comme pour le 3eme LFSR on va tester toute les initatialisations possibles du LFSR et on va regarder la corrélation avec l'inverse de la sortie du LFSR et la suite chiffrante (ex: LFSR sortie : 1001, suite : 0101, correlation entre 0110 et 0101) et si la corrélation est différente de 75\% on passe à une autre initialisation
-    \item Maintenant on connait l'initialisation du 1er et du 3eme LFSR, on peut obtenir facilement le 2eme et testant toute les initialisations.
+    \item Pour le 1er, on sait que la corrélation de la sortie du LFSR et de la suite chiffrante est de 25\%, donc si on inverse la sortie du LFSR la corrélation sera de 75\%. Donc comme pour le 3eme LFSR on va tester toute les initialisations possibles du LFSR et on va regarder la corrélation avec l'inverse de la sortie du LFSR et la suite chiffrante (ex: LFSR sortie : 1001, suite : 0101, corrélation entre 0110 et 0101) et si la corrélation est différente de 75\% on passe à une autre initialisation
+    \item Maintenant on connaît l'initialisation du 1er et du 3eme LFSR, on peut obtenir facilement le 2eme et testant toute les initialisations.
 \end{itemize}
 
 \subsection{Question 4}
  
 \begin{itemize}
-    \item nombre de bits : la taille du plus grand LFSR
-    \item taille en mémoire : un int pour la suite chiffrante et 1 int pour chasue LFSR
+    \item nombre de bits : 1000 bits
+    \item taille en mémoire : un int pour la suite chiffrante et 1 int pour chaque LFSR
     \item complexité en temps de l'attaque : $2^{16} + 2^{16} + 2^{16}  \approx 2^{17}$
     \item complexité en temps exhaustive : $2^{16} * 2^{16} * 2^{16}  = 2^{48}$
     \item $2^{48} / 2^{17} = 2^{31}$
     \item donc l'attaque par corrélation est $2^{31}$ plus rapide
 \end{itemize}
 
-\subsection{Question 5 : Implémentation de L'attaque en C}
+\subsection{Question 5 : Implémentions de L'attaque en C}
 
-voir code
+Voir attaque\_geffe.c / attaque\_geffe.h
+
+\subsection{Question 6}
+
+Il faut une fonction f tel que que la corrélation avec tous les bits de sorties soit de 50\%.\\
+Donc par exemple la fonction F = ($f_0$,$f_1$,$f_2$,$f_3$,$f_4$,$f_5$,$f_6$,$f_7$) = (0,0,0,0,0,0,0,0) ou F = ($f_0$,$f_1$,$f_2$,$f_3$,$f_4$,$f_5$,$f_6$,$f_7$) = (0,0,1,0,0,1,0,0)
 
 \section{Exercice 2}
+\subsection{Question 1}
+\begin{itemize}
+    \item les fonction du chiffrement pour un seul tour est :$ + :xor $
+    \begin{itemize}
+        \item $x_{r+1} ^ {L} =k_0 \oplus (x_r ^ {R} \oplus x_r ^{ L} ) <<<7$
+        \item $x_{r+1} ^{R} =(x_r ^{L} \oplus x_r ^{R} ) <<<7 \oplus K_0 \oplus x_r ^ {R} <<<7 \oplus K_1$ implique $x_{r+1} ^{R} =(x_{r+1}^{L} \oplus x_{r}^{R}) <<< 7 \oplus K_1$
+    \end{itemize}
+    \item Exemple :$(x_0^{L} , x_0^{R} ) = (0x45019824, 0x51023321)$,Trouvons $x_1^{L},x_1^{R}$ ,
+    $K_0 =0x01020304$ et $K_1=0x98765432$
+    \item $0x45019824$ en binaire c'est $0100 0101 0000 0001 1001 1000 0010 0100$
+    \item $0x51023321$ en binaire c'est $0101 0001 0000 0010 0011 0011 0010 0001$
+    \item   En binaire on a 
+    $K_0=0000 0001 0000 0010 0000 0011 0000 0100$ \\
+    et $K_1=1001 1000 0111 0110 0101 0100 0011 0010$
+    \item $x_1 ^{L} = K_0 \oplus ((x_0 ^{R} \oplus x_0 ^{L})<<<7) $
+    \item $x_1 ^{R} = K_1  \oplus ((x_0 ^{R} \oplus x_1^{L})<<<7) $
+    \item Calcul de $x_1^{L}$
+    \begin{itemize}
+        \item calcul de res= $x_0^{R} \oplus x_0^{L}$ on trouve $ 0001 0100 0000 0011 1010 1011 0000 0101$
+        \item calcul de res1=$res<<< 7$ on trouve 
+        res1=$ 0000 0001 1101 0101 1000 0010 1000 1010$
+        \item calcul de $x_1^{L}= res1 \oplus K_0$ on trouve 
+        $ x_1 ^{L}= 0000 0000 1101 0111 1000 0001 1000 1110 $
+        \item la valeur en hexadécimal c'est $x_1^{L} =0x00D7818E$
+        
+        
+    \end{itemize}
+    \item Calcul de $x_1^{R}$
+    \begin{itemize}
+        \item calcul de $x_0^{L} \oplus x_0^{R} =res$ (on l'avait déjà calculé)
+        \item calcul de $res <<< 7$ on trouve  $ res1= 0000 0001 1101 0101 1000 0010 1000 1010$
+        \item calcul de $res1\oplus K_0$ on trouve $ res2 = 0000 0000 1101 0111 1000 0001 1000 1110$
+        \item calcul de $res3= res2 \oplus x_0^{R}$ on trouve $res3=0101 0001 1101 0101 1011 0010 1010 1111  $
+        \item calcul de $res4 =res3 <<< 7$ on trouve $res4=1110 1010 1101 1001 0101 0111 1010 1000$
+        \item calcul du $x_1^{R}=res4 \oplus K_1 $ on trouve $x_1^{R}=0111 0010 1010 1111 0000 0011 1001 1010 $
+        \item La valeur en hexadécimal est $x_1^{R}=0x72AF039A$
+       
+    \end{itemize}
+    \item le couple $(x_1^{L},x_1^{R})= (0x00D7818E,0x72AF039A)$
+\end{itemize}
+\subsection{Question 2} 
+\begin{itemize}
+    \item   Système d'équation :$K_0 et K_1 sont des inconnues $
+    \begin{itemize}
+         \item $x_{r+1} ^ {L} =k_0 \oplus (x_r ^ {R} \oplus x_r ^{ L} ) <<<7$
+        \item $x_{r+1} ^{R} =(x_r ^{L} \oplus x_r ^{R} ) <<<7 + K_0 \oplus x_r ^ {R}  <<<7 \oplus K_1$ implique $  x_{r+1} ^{R} = (x_{r+1}^{L} \oplus x_r ^ {R}) <<<7 \oplus K_1$ 
+    \end{itemize}
+    \item Résoudre le système : Trouvons $K_0$ et $K_1$
+    \begin{itemize}
+         \item on a $A\oplus B =C $ implique $A = c \oplus B $
+         \item On a $A\oplus B = C$ implique $B = A \oplus C $
+        \item $K_0 = ((x_r ^ {R} \oplus x_r ^{ L} ) <<<7 )\oplus x_{r+1}^{L}$
+        \item $K_1= x_{r+1} ^{R} \oplus ((x_r ^ {R} \oplus x_{r+1} ^{ L} ) <<<7)$
+        \item $K_0 =x_1^{L} \oplus ((x_0^{R} \oplus x_0^{L} )<<<7 ) $
+        \item $K_1 = x_1 ^{R} \oplus ((x_0^{R}\oplus x_1 ^{L}) <<< 7)$
+        
+    \end{itemize}
+    \item Implémentions pour avoir les clé $(K_0,K_1)$ Voir le code  src/block.c 
+\end{itemize}
+
+ \subsection{Question 3 }
+ 
+ \begin{itemize}
+     \item Regarder src/block.c
+ \end{itemize}
+ \\
+\begin{itemize}
+    \item $K0 = L1 \oplus ((R0 \oplus L0) <<< 7)$
+    \item $K1 = R1 \oplus ((R0 \oplus L1) <<< 7)$
+    \item ....
+    \item $K0 = L12 \oplus ((R11 \oplus L11) <<< 7)$
+    \item $K1 = R12 \oplus ((R11 \oplus L12) <<< 7)$
+\end{itemize}
+
+Donc si on prend un texte(clair/chiffre) de 12 tours et un 2ème décaler d'un tour, c'est à dire $L1 = L0'$ et $R1 = R0'$ alors on aura $L12 = L11'$ et $R12 = R11'$.\\
+Donc on peut calculer $KO$ et $K1$ à partir de (L0,R0) et (L0',R0'), et on compare avec le $KO$ et $K1$ qu'on obtiens avec (L12,R12) et (L12',R12'). Normalement on trouve les mêmes clé car on a supposer que le deuxième texte était décaler d'un tour par rapport au premier.
+ 
+\subsection{Question 4}
+ 
+ \begin{itemize}
+     \item Regarder le code 
+ \end{itemize}
+ 
+\subsection{Question 5}
+ 
+ \begin{itemize}
+    \item Non il ne le rendra pas plus solide car ca marche avec tous les nombres de tours
+    \item Prenons n tours, on a :
+    \item $K_0 = L_1 \oplus ((R_0 \oplus L_0) <<< 7)$
+    \item $K_1 = R_1 \oplus ((R_0 \oplus L_1) <<< 7)$
+    \item ....
+    \item $K_0 = L_N \oplus ((R_{N-1} \oplus L_{N-1}) <<< 7)$
+    \item $K_1 = R_N \oplus ((R_{N-1} \oplus L_N) <<< 7)$
+ \end{itemize}
+
+Donc on a fait la même méthode on considère que pour le 2ème texte (clair/chiffré) le clair correspond au chiffré d'un tour du premier clair.\\ \\
+Donc on peut calculer $KO$ et $K1$ à partir de ($L_0$,$R_0$) et ($L_0'$,$R_0'$), et on compare avec le $KO$ et $K1$ qu'on obtiens avec ($L_N$,$R_N$) et ($L_N'$,$R_N'$). Normalement on trouve les mêmes clé car on a supposer que le deuxième texte était décaler d'un tour par rapport au premier.
+ 
+\subsection{Question 6}
+
+Il faut faire en sorte que l'on puisse pas calculer les clé avec un tour. 
 
 \end{document}
