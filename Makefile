@@ -3,7 +3,7 @@
 CC = gcc
 
 EXEC = app.exe
-ARCHIVE = BOUTON_Nicolas-HADJAB_LYNDA
+ARCHIVE = BOUTON_Nicolas-HADJAB_LYNDA-DEDARALLY_Taariq
 TAR = tar.gz
 
 SRCDIR = src
