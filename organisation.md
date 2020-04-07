@@ -12,4 +12,4 @@ Chacun a proposé sa version du code et on a pris la plus optimale en fonction d
 
 ### Contrendu
 
-Pour le contredu, de même, on a fais chacun les exercices et on s'est entraidé pour trouver la solution.
+Pour le contrendu, de même, on a fais chacun les exercices et on s'est entraidé pour trouver la solution.
